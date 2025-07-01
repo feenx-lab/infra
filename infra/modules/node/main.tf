@@ -31,7 +31,6 @@ resource "talos_machine_configuration_apply" "this" {
       schematic_id    = var.schematic_id
     }),
 
-    # Install Cilium CNI using inline manifests
     yamlencode({
       cluster = {
         inlineManifests = var.inline_manifests
