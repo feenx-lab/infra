@@ -36,3 +36,7 @@ variable "github_organization" {
 variable "github_repository" {
   type = string
 }
+
+variable "vlans" {
+  type = list(number)
+}

@@ -46,3 +46,7 @@ variable "inline_manifests" {
 variable "schematic_id" {
   type = string
 }
+
+variable "vlans" {
+  type = list(number)
+}

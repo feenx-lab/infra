@@ -39,3 +39,5 @@ k8s_version = "1.33.0"
 
 github_organization = "feenx-lab"
 github_repository = "platform"
+
+vlans = [98, 99, 101, 102]

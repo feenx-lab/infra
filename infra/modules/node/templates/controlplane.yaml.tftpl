@@ -2,12 +2,23 @@ machine:
   network:
     hostname: ${hostname}
     interfaces:
-      # Should be the first 10Gb interface
       - deviceSelector:
           hardwareAddr: "${mac_address}"
+          physical: true
+        # Root Interface configuration set to dhcp
         dhcp: true
+
+        # Child VLAN interfaces
+        vlans:
+          %{~ for vlanId in vlans ~}
+          - vlanId: ${vlanId}
+            dhcp: true
+          %{~ endfor ~}
+
+        # VIP Configuration
         vip:
           ip: ${virtual_ip}
+
       # Make sure ignore the 2.5Gb interface
       - deviceSelector:
           hardwareAddr: "${wake_on_lan_mac}"

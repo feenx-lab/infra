@@ -46,6 +46,7 @@ module "nx0" {
 
   # Node Info
   node_info = var.cluster_nodes["nx0"]
+  vlans = var.vlans
 
   # Config Info
   machine_secrets      = module.config.machine_secrets
@@ -67,6 +68,7 @@ module "nx1" {
 
   # Node Info
   node_info = var.cluster_nodes["nx1"]
+  vlans = var.vlans
 
   # Config Info
   machine_secrets      = module.config.machine_secrets
@@ -88,6 +90,7 @@ module "nx2" {
 
   # Node Info
   node_info = var.cluster_nodes["nx2"]
+  vlans = var.vlans
 
   # Config Info
   machine_secrets      = module.config.machine_secrets
