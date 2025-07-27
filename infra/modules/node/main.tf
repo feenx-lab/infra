@@ -29,6 +29,7 @@ resource "talos_machine_configuration_apply" "this" {
       virtual_ip      = var.cluster_info.virtual_ip
       talos_version   = var.talos_version
       schematic_id    = var.schematic_id
+      vlans           = var.vlans
     }),
 
     yamlencode({

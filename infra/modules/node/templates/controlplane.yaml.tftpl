@@ -8,6 +8,13 @@ machine:
         # Root Interface configuration set to dhcp
         dhcp: true
 
+        # Child VLAN interfaces
+        vlans:
+          %{~ for vlanId in vlans ~}
+          - vlanId: ${vlanId}
+            dhcp: true
+          %{~ endfor ~}
+
         # VIP Configuration
         vip:
           ip: ${virtual_ip}
