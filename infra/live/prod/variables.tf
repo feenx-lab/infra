@@ -24,8 +24,12 @@ variable "k8s_version" {
   type = string
 }
 
-variable "kube_config_path" {
+variable "cilium_version" {
   type = string
+}
+
+variable "kube_config_path" {
+  type    = string
   default = "~/.kube/config"
 }
 

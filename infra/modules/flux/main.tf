@@ -19,7 +19,7 @@ resource "kubernetes_secret" "git_ssh_auth" {
 
   data = {
     "identity.pub" = var.git_public_key
-    "identity" = var.git_private_key
+    "identity"     = var.git_private_key
     "known_hosts"  = "github.com ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEmKSENjQEezOmxkZMy7opKgwFB9nkt5YRrYMjNuG5N87uRgg6CLrbo5wAdT/y6v0mKV0U2w0WZ2YB/++Tpockg="
   }
 
@@ -49,19 +49,19 @@ resource "helm_release" "flux_instance" {
 
   set = [
     // Configure the Flux distribution.
-    {name  = "instance.distribution.version", value = var.flux_version},
-    {name  = "instance.distribution.registry", value = var.flux_registry},
+    { name = "instance.distribution.version", value = var.flux_version },
+    { name = "instance.distribution.registry", value = var.flux_registry },
 
     // Configure Flux Git sync.
-    {name  = "instance.sync.kind", value = "GitRepository"},
-    {name  = "instance.sync.url", value = var.git_url},
-    {name  = "instance.sync.path", value = var.git_path},
-    {name  = "instance.sync.ref", value = var.git_ref},
-    {name  = "instance.sync.pullSecret", value = kubernetes_secret.git_ssh_auth.metadata.0.name}
+    { name = "instance.sync.kind", value = "GitRepository" },
+    { name = "instance.sync.url", value = var.git_url },
+    { name = "instance.sync.path", value = var.git_path },
+    { name = "instance.sync.ref", value = var.git_ref },
+    { name = "instance.sync.pullSecret", value = kubernetes_secret.git_ssh_auth.metadata.0.name }
   ]
 
   provisioner "local-exec" {
-    when = destroy
+    when    = destroy
     command = "kubectl -n flux-system delete fluxinstances --all"
   }
 }

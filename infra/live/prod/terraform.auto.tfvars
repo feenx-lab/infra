@@ -35,9 +35,10 @@ cluster_info = {
   endpoint    = "https://k8s.feenx.io:6443"
 }
 
-k8s_version = "1.33.0"
+k8s_version    = "1.33.0"
+cilium_version = "1.17.5"
 
 github_organization = "feenx-lab"
-github_repository = "platform"
+github_repository   = "platform"
 
 vlans = [98, 99, 101, 102]

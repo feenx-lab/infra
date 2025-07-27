@@ -1,16 +1,10 @@
 # Locals
 locals {
   bootstrap_node = one([for n in var.cluster_nodes : n.hostname if n.bootstrap])
-  inline_manifests = [
-    {
-      name     = "cilium"
-      contents = module.config.cilium_manifest
-    }
-  ]
 }
 
 # Data
-data "local_sensitive_file" "kube_config"{
+data "local_sensitive_file" "kube_config" {
   depends_on = [module.cluster]
   filename   = pathexpand(var.kube_config_path)
 }
@@ -24,19 +18,24 @@ module "baremetal" {
 }
 
 module "config" {
-  # depends_on     = [module.baremetal]
   source         = "../../modules/config"
   cluster_name   = var.cluster_info.name
-  node_names     = [for n in var.cluster_nodes : n.hostname]                       #TODO: Create as local
-  node_ips       = [for n in var.cluster_nodes : n.ip if n.role == "controlplane"] #TODO: Create as local
-  cilium_version = "1.17.5"                                                        #TODO: Create variable in the root module.
-  k8s_version   = var.k8s_version
+  node_names     = [for n in var.cluster_nodes : n.hostname]
+  node_ips       = [for n in var.cluster_nodes : n.ip if n.role == "controlplane"]
+  cilium_version = var.cilium_version
+  k8s_version    = var.k8s_version
+  talos_version  = module.baremetal.talos_version
+}
+
+module "cilium" {
+  source         = "../../modules/cilium"
+  cilium_version = var.cilium_version
+  k8s_version    = var.k8s_version
   talos_version  = module.baremetal.talos_version
 }
 
 module "nx0" {
-  depends_on = [module.baremetal]
-  source     = "../../modules/node"
+  source = "../../modules/node"
 
   # Cluster Info
   cluster_info  = var.cluster_info
@@ -46,18 +45,18 @@ module "nx0" {
 
   # Node Info
   node_info = var.cluster_nodes["nx0"]
-  vlans = var.vlans
+  vlans     = var.vlans
 
   # Config Info
   machine_secrets      = module.config.machine_secrets
   client_configuration = module.config.client_configuration
 
   # Inline Manifests
-  inline_manifests = local.inline_manifests
+  inline_manifests = module.cilium.manifests
 }
 
 module "nx1" {
-  depends_on = [module.baremetal, module.nx0]
+  depends_on = [module.nx0]
   source     = "../../modules/node"
 
   # Cluster Info
@@ -68,18 +67,18 @@ module "nx1" {
 
   # Node Info
   node_info = var.cluster_nodes["nx1"]
-  vlans = var.vlans
+  vlans     = var.vlans
 
   # Config Info
   machine_secrets      = module.config.machine_secrets
   client_configuration = module.config.client_configuration
 
   # Inline Manifests
-  inline_manifests = local.inline_manifests
+  inline_manifests = module.cilium.manifests
 }
 
 module "nx2" {
-  depends_on = [module.baremetal, module.nx0]
+  depends_on = [module.nx0]
   source     = "../../modules/node"
 
   # Cluster Info
@@ -90,14 +89,14 @@ module "nx2" {
 
   # Node Info
   node_info = var.cluster_nodes["nx2"]
-  vlans = var.vlans
+  vlans     = var.vlans
 
   # Config Info
   machine_secrets      = module.config.machine_secrets
   client_configuration = module.config.client_configuration
 
   # Inline Manifests
-  inline_manifests = local.inline_manifests
+  inline_manifests = module.cilium.manifests
 }
 
 module "cluster" {
@@ -106,29 +105,29 @@ module "cluster" {
 
   # Config Info
   client_configuration = module.config.client_configuration
-  kube_config_path = var.kube_config_path
+  kube_config_path     = var.kube_config_path
 
   # Cluster Info
   cluster_nodes = var.cluster_nodes
-  cluster_name = var.cluster_info.name
+  cluster_name  = var.cluster_info.name
 }
 
 module "github_deploy_key" {
   depends_on = [module.cluster]
-  source = "../../modules/github_deploy_key"
-  repo_name = "${var.github_repository}"
+  source     = "../../modules/github_deploy_key"
+  repo_name  = var.github_repository
 }
 
 module "flux" {
-  depends_on = [module.github_deploy_key]
-  source = "../../modules/flux"
-  git_url = "ssh://git@github.com/${var.github_organization}/${var.github_repository}"
-  git_path = "clusters/prod"
-  git_ref = "refs/heads/feat/initial-config"
+  depends_on      = [module.github_deploy_key]
+  source          = "../../modules/flux"
+  git_url         = "ssh://git@github.com/${var.github_organization}/${var.github_repository}"
+  git_path        = "clusters/prod"
+  git_ref         = "refs/heads/feat/initial-config"
   git_private_key = module.github_deploy_key.tls_private_key
-  git_public_key = module.github_deploy_key.tls_public_key
+  git_public_key  = module.github_deploy_key.tls_public_key
   providers = {
     kubernetes = kubernetes.configured
-    helm = helm.configured
+    helm       = helm.configured
   }
 }
