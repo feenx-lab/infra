@@ -35,13 +35,6 @@ cluster:
   # We allow scheduling on control planes, this is a 3 node cluster.
   allowSchedulingOnControlPlanes: true
 
-  # Disable default CNI and kube-proxy
-  network:
-    cni:
-      name: none
-  proxy:
-    disabled: true
-
   # Extra manifests for auto certificate rotation for kubelet
   extraManifests:
     - https://raw.githubusercontent.com/alex1989hu/kubelet-serving-cert-approver/main/deploy/standalone-install.yaml
