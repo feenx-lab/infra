@@ -32,9 +32,9 @@ kubeProxyReplacement: true # aka 'strict' in <=v1.13, required for DSR, Bandwidt
 #   hostLegacyRouting: true # talos compatibility post v1.16.6 https://github.com/cilium/cilium/pull/36852 | https://www.talos.dev/v1.9/kubernetes-guides/network/deploying-cilium/#known-issues
 
 # 2024-03: wrong values here brick cluster networking, including ability to read pod logs via eg k9s (red herring tls errors)
-k8sServiceHost: "10.10.97.10" # usually the first ip in the Service range, NetworkConfig.interfaces.vip would also work except creates chicken/egg issue (vip doesnt function until first node is healthy)
+# k8sServiceHost: "10.10.97.10" # usually the first ip in the Service range, NetworkConfig.interfaces.vip would also work except creates chicken/egg issue (vip doesnt function until first node is healthy)
 # k8sServicePort: "6443"
-# k8sServiceHost: "localhost" # kubePrism compatibility https://www.talos.dev/v1.6/kubernetes-guides/network/deploying-cilium/#without-kube-proxy
+k8sServiceHost: "localhost" # kubePrism compatibility https://www.talos.dev/v1.6/kubernetes-guides/network/deploying-cilium/#without-kube-proxy
 k8sServicePort: "7445"
 
 bandwidthManager: # https://docs.cilium.io/en/stable/operations/performance/tuning/#bandwidth-manager
