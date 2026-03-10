@@ -1,0 +1,33 @@
+name: Decision
+description: Propose a significant architecture or process decision.
+title: "decision: <topic>"
+labels:
+  - decision
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: What context drives this decision?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed decision
+      description: What do you propose and why?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: textarea
+    id: consequences
+    attributes:
+      label: Consequences
+  - type: input
+    id: adr_link
+    attributes:
+      label: ADR link (if created)
+      placeholder: docs/decisions/ADR-xxx-...md

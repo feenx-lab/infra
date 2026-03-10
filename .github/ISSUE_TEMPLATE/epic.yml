@@ -1,0 +1,34 @@
+name: Epic
+description: Track a multi-task initiative.
+title: "epic: <initiative name>"
+labels:
+  - epic
+body:
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective
+      description: What outcome does this epic deliver?
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: Why this work matters now.
+  - type: textarea
+    id: milestones
+    attributes:
+      label: Milestones
+      placeholder: |
+        - Mx: ...
+  - type: textarea
+    id: child_tasks
+    attributes:
+      label: Child tasks
+      placeholder: |
+        - [ ] #123 ...
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks and unknowns
