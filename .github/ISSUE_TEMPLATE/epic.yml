@@ -1,0 +1,27 @@
+name: Epic
+about: Track a multi-step initiative with multiple issues
+labels: [epic]
+body:
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective
+      description: What larger outcome does this epic deliver?
+    validations:
+      required: true
+  - type: textarea
+    id: milestones
+    attributes:
+      label: Milestones
+      placeholder: |
+        - [ ] M1 ...
+        - [ ] M2 ...
+  - type: textarea
+    id: child_issues
+    attributes:
+      label: Child Issues
+      description: Link planned tasks
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks / Unknowns
