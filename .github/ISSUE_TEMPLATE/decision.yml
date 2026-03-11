@@ -1,5 +1,5 @@
 name: Decision Record Proposal
-about: Propose or revise an architecture decision
+description: Propose or revise an architecture decision
 labels: [decision]
 body:
   - type: input
