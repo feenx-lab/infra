@@ -1,5 +1,5 @@
 name: Epic
-about: Track a multi-step initiative with multiple issues
+description: Track a multi-step initiative with multiple issues
 labels: [epic]
 body:
   - type: textarea
