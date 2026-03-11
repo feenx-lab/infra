@@ -1,5 +1,6 @@
 name: Task
-about: Track a concrete, reviewable unit of work
+description: Track a concrete, reviewable unit of work
+title: "[Task] "
 labels: [task]
 body:
   - type: textarea
