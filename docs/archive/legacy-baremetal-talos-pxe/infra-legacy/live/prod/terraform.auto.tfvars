@@ -4,7 +4,7 @@
 # while removing private operational values.
 
 cluster_nodes = {
-  node0 = {
+  nx0 = {
     hostname        = "<redacted-hostname>"
     ip              = "<redacted-ip>"
     mac_address     = "<redacted-mac>"
